@@ -47,8 +47,14 @@
                                     <option value="@p">@p</option>
                                     }
                                 /**/
+                                /**/
                             </InputSelect>
                             <ValidationMessage For="@(() => parentId)" class="form-text text-muted"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtTitle">File</label>
+                            <BlazorInputFile.InputFile OnChange="HandleSelection">
+                            </BlazorInputFile.InputFile>                            
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Submit</button>

@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadApp", "UploadApp\UploadApp.csproj", "{C5B23BA9-C377-409F-9E10-4A1F0AF24D69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UploadApp", "UploadApp\UploadApp.csproj", "{C5B23BA9-C377-409F-9E10-4A1F0AF24D69}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "UploadApp.SqlServer", "UploadApp.SqlServer\UploadApp.SqlServer.sqlproj", "{CD266CA9-2E87-4443-9687-77DCEFA89E6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadApp.Models", "UploadApp.Models\UploadApp.Models.csproj", "{AA7F44E6-DCA8-407A-83AA-A7B3C11CC671}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UploadApp.Models", "UploadApp.Models\UploadApp.Models.csproj", "{AA7F44E6-DCA8-407A-83AA-A7B3C11CC671}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadApp.Models.Tests", "UploadApp.Models.Tests\UploadApp.Models.Tests.csproj", "{F8FDDC2C-B0E9-4A5B-AE3F-F78DC6C34DC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UploadApp.Models.Tests", "UploadApp.Models.Tests\UploadApp.Models.Tests.csproj", "{F8FDDC2C-B0E9-4A5B-AE3F-F78DC6C34DC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadApp.Apis", "UploadApp.Apis\UploadApp.Apis.csproj", "{69FBB91D-1E29-4F2A-90B2-1ED1505D11D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UploadApp.Apis", "UploadApp.Apis\UploadApp.Apis.csproj", "{69FBB91D-1E29-4F2A-90B2-1ED1505D11D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{6A392474-E949-41C8-9261-0CD3AA0D5399}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorInputFile", "BlazorInputFile\BlazorInputFile.csproj", "{D59AB6DC-F57B-4EC0-B87D-D4DA176DE6CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,9 +45,16 @@ Global
 		{69FBB91D-1E29-4F2A-90B2-1ED1505D11D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69FBB91D-1E29-4F2A-90B2-1ED1505D11D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69FBB91D-1E29-4F2A-90B2-1ED1505D11D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D59AB6DC-F57B-4EC0-B87D-D4DA176DE6CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D59AB6DC-F57B-4EC0-B87D-D4DA176DE6CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D59AB6DC-F57B-4EC0-B87D-D4DA176DE6CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D59AB6DC-F57B-4EC0-B87D-D4DA176DE6CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D59AB6DC-F57B-4EC0-B87D-D4DA176DE6CA} = {6A392474-E949-41C8-9261-0CD3AA0D5399}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5B20A26E-F4D3-401B-AE87-9E347870F638}

@@ -10,6 +10,7 @@ using UploadApp.Areas.Identity;
 using UploadApp.Data;
 using NoticeApp.Models;
 using UploadApp.Models;
+using UploadApp.Services;
 
 namespace UploadApp
 {
@@ -38,6 +39,8 @@ namespace UploadApp
 
             AddDependencyInjectionContainerForNoticeApp(services);
             AddDependencyInjectionContainerForUploadApp(services);
+
+            services.AddScoped<IFileUploadService, FileUploadService>();
         }
 
         /// <summary>

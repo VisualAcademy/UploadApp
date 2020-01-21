@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using UploadApp.Models;
 using System;
+using UploadApp.Services;
+using BlazorInputFile;
+using System.Linq;
 
 namespace UploadApp.Pages.Uploads.Components
 {
@@ -72,6 +75,23 @@ namespace UploadApp.Pages.Uploads.Components
 
         protected async void CreateOrEditClick()
         {
+            #region 파일 업로드 관련 추가 코드 영역
+            // 파일 업로드
+            var file = selectedFiles.FirstOrDefault();
+            var fileName = "";
+            int fileSize = 0;
+            if (file != null)
+            {
+                //file.Name = $"{DateTime.Now.ToString("yyyyMMddhhmmss")}{file.Name}";
+                fileName = file.Name;
+                fileSize = Convert.ToInt32(file.Size);
+                await FileUploadServiceReference.UploadAsync(file);
+
+                Model.FileName = fileName;
+                Model.FileSize = fileSize;
+            } 
+            #endregion
+
             if (!int.TryParse(parentId, out int newParentId))
             {
                 newParentId = 0;
@@ -91,6 +111,15 @@ namespace UploadApp.Pages.Uploads.Components
                 await EditCallback.InvokeAsync(true);
             }
             //IsShow = false; // this.Hide()
+        }
+
+        [Inject]
+        public IFileUploadService FileUploadServiceReference { get; set; }
+
+        private IFileListEntry[] selectedFiles;
+        protected void HandleSelection(IFileListEntry[] files)
+        {
+            this.selectedFiles = files;
         }
     }
 }
