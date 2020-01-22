@@ -152,8 +152,7 @@ namespace UploadApp.Pages.Uploads
         {
             if (!string.IsNullOrEmpty(model.FileName))
             {
-                string folderPath = Path.Combine(WebHostEnvironment.WebRootPath, "files");
-                byte[] fileBytes = await FileStorageManager.DownloadAsync(model.FileName, folderPath);
+                byte[] fileBytes = await FileStorageManager.DownloadAsync(model.FileName, "");
                 if (fileBytes != null)
                 {
                     await FileUtil.SaveAs(JSRuntime, model.FileName, fileBytes); 
@@ -167,8 +166,8 @@ namespace UploadApp.Pages.Uploads
         [Inject]
         public IFileStorageManager FileStorageManager { get; set; }
 
-        [Inject]
-        public IWebHostEnvironment WebHostEnvironment { get; set; }
+        //[Inject]
+        //public IWebHostEnvironment WebHostEnvironment { get; set; }
 
         protected async void CreateOrEdit()
         {
@@ -180,8 +179,7 @@ namespace UploadApp.Pages.Uploads
         protected async void DeleteClick()
         {
             // 첨부 파일 삭제 
-            string folderPath = Path.Combine(WebHostEnvironment.WebRootPath, "files");
-            await FileStorageManager.DeleteAsync(model.FileName, folderPath);
+            await FileStorageManager.DeleteAsync(model.FileName, "");
 
             await UploadRepositoryAsyncReference.DeleteAsync(this.model.Id);
             DeleteDialogReference.Hide();

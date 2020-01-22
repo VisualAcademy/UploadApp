@@ -5,7 +5,7 @@ using VisualAcademy.Shared;
 
 namespace UploadApp.Managers
 {
-    public class BlobStorageManager : IFileStorageManager
+    public class UploadAppBlobStorageManager : IFileStorageManager
     {
         public Task<bool> DeleteAsync(string fileName, string folderPath)
         {

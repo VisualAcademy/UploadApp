@@ -46,8 +46,8 @@ namespace UploadApp
 
             services.AddScoped<IFileUploadService, FileUploadService>();
 
-            //services.AddTransient<IFileStorageManager, BlobStorageManager>(); // Cloud Upload
-            services.AddTransient<IFileStorageManager, FileStorageManager>(); // Local Upload
+            //services.AddTransient<IFileStorageManager, UploadAppBlobStorageManager>(); // Cloud Upload
+            services.AddTransient<IFileStorageManager, UploadAppFileStorageManager>(); // Local Upload
         }
 
         /// <summary>

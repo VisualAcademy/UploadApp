@@ -35,8 +35,7 @@ namespace UploadApp.Controllers
             {
                 if (!string.IsNullOrEmpty(model.FileName))
                 {
-                    string folderPath = Path.Combine(_environment.WebRootPath, "files");
-                    byte[] fileBytes = await _fileStorageManager.DownloadAsync(model.FileName, folderPath);
+                    byte[] fileBytes = await _fileStorageManager.DownloadAsync(model.FileName, "");
                     if (fileBytes != null)
                     {
                         return File(fileBytes, "application/octet-stream", model.FileName);
