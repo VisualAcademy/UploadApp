@@ -159,6 +159,10 @@ namespace UploadApp.Pages.Uploads
                 byte[] fileBytes = await FileStorageManager.DownloadAsync(model.FileName, "");
                 if (fileBytes != null)
                 {
+                    // DownCount
+                    model.DownCount = model.DownCount + 1;
+                    await UploadRepositoryAsyncReference.EditAsync(model);
+
                     await FileUtil.SaveAs(JSRuntime, model.FileName, fileBytes); 
                 }
             }

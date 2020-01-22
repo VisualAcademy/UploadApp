@@ -38,6 +38,10 @@ namespace UploadApp.Controllers
                     byte[] fileBytes = await _fileStorageManager.DownloadAsync(model.FileName, "");
                     if (fileBytes != null)
                     {
+                        // DownCount
+                        model.DownCount = model.DownCount + 1;
+                        await _repository.EditAsync(model); 
+
                         return File(fileBytes, "application/octet-stream", model.FileName);
                     }
                     else
