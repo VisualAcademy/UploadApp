@@ -24,6 +24,11 @@ namespace UploadApp.Models
         public int? ParentId { get; set; }
 
         /// <summary>
+        /// 외래키
+        /// </summary>
+        public string ParentKey { get; set; }
+
+        /// <summary>
         /// 이름
         /// </summary>
         [Required(ErrorMessage = "이름을 입력하세요.")]

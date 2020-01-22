@@ -17,6 +17,9 @@ namespace UploadApp.Pages.Uploads
         [Parameter]
         public int ParentId { get; set; } = 0;
 
+        [Parameter]
+        public string ParentKey { get; set; } = "";
+
         [Inject]
         public IUploadRepository UploadRepositoryAsyncReference { get; set; }
 
@@ -64,16 +67,15 @@ namespace UploadApp.Pages.Uploads
 
         private async Task DisplayData()
         {
-            if (ParentId == 0)
+            if (ParentKey == "")
             {
-                //await Task.Delay(3000);
                 var resultsSet = await UploadRepositoryAsyncReference.GetAllAsync(pager.PageIndex, pager.PageSize);
                 pager.RecordCount = resultsSet.TotalRecords;
                 models = resultsSet.Records.ToList();
             }
             else
             {
-                var resultsSet = await UploadRepositoryAsyncReference.GetAllByParentIdAsync(pager.PageIndex, pager.PageSize, ParentId);
+                var resultsSet = await UploadRepositoryAsyncReference.GetAllByParentKeyAsync(pager.PageIndex, pager.PageSize, ParentKey);
                 pager.RecordCount = resultsSet.TotalRecords;
                 models = resultsSet.Records.ToList();
             }
@@ -83,7 +85,7 @@ namespace UploadApp.Pages.Uploads
 
         private async Task SearchData()
         {
-            if (ParentId == 0)
+            if (ParentKey == "")
             {
                 var resultsSet = await UploadRepositoryAsyncReference.SearchAllAsync(pager.PageIndex, pager.PageSize, this.searchQuery);
                 pager.RecordCount = resultsSet.TotalRecords;
@@ -91,7 +93,7 @@ namespace UploadApp.Pages.Uploads
             }
             else
             {
-                var resultsSet = await UploadRepositoryAsyncReference.SearchAllByParentIdAsync(pager.PageIndex, pager.PageSize, this.searchQuery, ParentId);
+                var resultsSet = await UploadRepositoryAsyncReference.SearchAllByParentKeyAsync(pager.PageIndex, pager.PageSize, this.searchQuery, ParentKey);
                 pager.RecordCount = resultsSet.TotalRecords;
                 models = resultsSet.Records.ToList();
             }
@@ -124,7 +126,8 @@ namespace UploadApp.Pages.Uploads
         protected void ShowEditorForm()
         {
             EditorFormTitle = "CREATE";
-            this.model = new Upload(); 
+            this.model = new Upload();
+            this.model.ParentKey = ParentKey; // 
             EditorFormReference.Show();
         }
 
@@ -132,7 +135,8 @@ namespace UploadApp.Pages.Uploads
         {
             EditorFormTitle = "EDIT";
             this.model = new Upload();
-            this.model = model; 
+            this.model = model;
+            this.model.ParentKey = ParentKey; // 
             EditorFormReference.Show();
         }
 

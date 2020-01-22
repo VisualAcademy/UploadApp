@@ -209,5 +209,35 @@ namespace UploadApp.Models
 
             return await Task.FromResult(createCounts);
         }
+
+        public async Task<PagingResult<Upload>> GetAllByParentKeyAsync(int pageIndex, int pageSize, string parentKey)
+        {
+            var totalRecords = await _context.Uploads.Where(m => m.ParentKey == parentKey).CountAsync();
+            var models = await _context.Uploads
+                .Where(m => m.ParentKey == parentKey)
+                .OrderByDescending(m => m.Id)
+                //.Include(m => m.UploadsComments)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagingResult<Upload>(models, totalRecords);
+        }
+
+        public async Task<PagingResult<Upload>> SearchAllByParentKeyAsync(int pageIndex, int pageSize, string searchQuery, string parentKey)
+        {
+            var totalRecords = await _context.Uploads.Where(m => m.ParentKey == parentKey)
+                .Where(m => EF.Functions.Like(m.Name, $"%{searchQuery}%") || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .CountAsync();
+            var models = await _context.Uploads.Where(m => m.ParentKey == parentKey)
+                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .OrderByDescending(m => m.Id)
+                //.Include(m => m.UploadsComments)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagingResult<Upload>(models, totalRecords);
+        }
     }
 }
