@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
 using UploadApp.Models;
+using VisualAcademy.Shared;
 
 namespace UploadApp.Controllers
 {
@@ -10,17 +11,19 @@ namespace UploadApp.Controllers
     {
         private readonly IWebHostEnvironment _environment;
         private readonly IUploadRepository _repository;
+        private readonly IFileStorageManager _fileStorageManager;
 
-        public UploadDownloadController(IWebHostEnvironment environment, IUploadRepository repository)
+        public UploadDownloadController(IWebHostEnvironment environment, IUploadRepository repository, IFileStorageManager fileStorageManager)
         {
             this._environment = environment;
             this._repository = repository;
+            this._fileStorageManager = fileStorageManager;
         }
 
         /// <summary>
         /// 게시판 파일 강제 다운로드 기능(/BoardDown/:Id)
         /// </summary>
-        public async Task<FileResult> FileDown(int id)
+        public async Task<IActionResult> FileDown(int id)
         {
             var model = await _repository.GetByIdAsync(id);
 
@@ -30,15 +33,21 @@ namespace UploadApp.Controllers
             }
             else
             {
-
-                if (System.IO.File.Exists(Path.Combine(_environment.WebRootPath, "files") + "\\" + model.FileName))
+                if (!string.IsNullOrEmpty(model.FileName))
                 {
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(_environment.WebRootPath, "files") + "\\" + model.FileName);
-
-                    return File(fileBytes, "application/octet-stream", model.FileName);
+                    string folderPath = Path.Combine(_environment.WebRootPath, "files");
+                    byte[] fileBytes = await _fileStorageManager.DownloadAsync(model.FileName, folderPath);
+                    if (fileBytes != null)
+                    {
+                        return File(fileBytes, "application/octet-stream", model.FileName);
+                    }
+                    else
+                    {
+                        return Redirect("/");
+                    }
                 }
 
-                return null;
+                return Redirect("/");
             }
         }
     }

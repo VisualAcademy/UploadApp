@@ -7,9 +7,13 @@ namespace UploadApp.Managers
 {
     public class FileStorageManager : IFileStorageManager
     {
-        public Task<bool> DeleteAsync(string fileName, string folderPath)
+        public async Task<bool> DeleteAsync(string fileName, string folderPath)
         {
-            throw new NotImplementedException();
+            if (File.Exists(Path.Combine(folderPath, fileName)))
+            {
+                File.Delete(Path.Combine(folderPath, fileName));
+            }
+            return await Task.FromResult(true); 
         }
 
         public async Task<byte[]> DownloadAsync(string fileName, string folderPath)

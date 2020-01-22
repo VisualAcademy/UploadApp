@@ -24,9 +24,4 @@
     <ProjectReference Include="..\VisualAcademy.Shared\VisualAcademy.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\files\" />
-    <Folder Include="wwwroot\Upload\" />
-  </ItemGroup>
-
 </Project>

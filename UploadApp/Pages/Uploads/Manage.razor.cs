@@ -179,6 +179,10 @@ namespace UploadApp.Pages.Uploads
 
         protected async void DeleteClick()
         {
+            // 첨부 파일 삭제 
+            string folderPath = Path.Combine(WebHostEnvironment.WebRootPath, "files");
+            await FileStorageManager.DeleteAsync(model.FileName, folderPath);
+
             await UploadRepositoryAsyncReference.DeleteAsync(this.model.Id);
             DeleteDialogReference.Hide();
             this.model = new Upload(); 
