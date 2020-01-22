@@ -6,6 +6,7 @@ using BlazorInputFile;
 using System.Linq;
 using VisualAcademy.Shared;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace UploadApp.Pages.Uploads.Components
 {
@@ -89,9 +90,13 @@ namespace UploadApp.Pages.Uploads.Components
                 fileSize = Convert.ToInt32(file.Size);
                 //await FileUploadServiceReference.UploadAsync(file);
 
-                var ms = new MemoryStream();
-                await file.Data.CopyToAsync(ms);
-                await FileStorageManager.UploadAsync(ms.ToArray(), file.Name, "", true);
+                //[A] byte[] 형태
+                //var ms = new MemoryStream();
+                //await file.Data.CopyToAsync(ms);
+                //await FileStorageManager.UploadAsync(ms.ToArray(), file.Name, "", true);
+                //[B] Stream 형태
+                string folderPath = Path.Combine(WebHostEnvironment.WebRootPath, "files");
+                await FileStorageManager.UploadAsync(file.Data, file.Name, folderPath, true);
 
                 Model.FileName = fileName;
                 Model.FileSize = fileSize;
@@ -130,5 +135,8 @@ namespace UploadApp.Pages.Uploads.Components
 
         [Inject]
         public IFileStorageManager FileStorageManager { get; set; }
+
+        [Inject]
+        public IWebHostEnvironment WebHostEnvironment { get; set; }
     }
 }

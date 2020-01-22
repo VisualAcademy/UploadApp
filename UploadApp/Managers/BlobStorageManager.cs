@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using VisualAcademy.Shared;
 
@@ -32,6 +33,11 @@ namespace UploadApp.Managers
         }
 
         public Task<string> UploadAsync(byte[] bytes, string fileName, string folderPath, bool overwrite)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> UploadAsync(Stream stream, string fileName, string folderPath, bool overwrite)
         {
             throw new NotImplementedException();
         }
