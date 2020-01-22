@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorInputFile;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Linq;
 using UploadApp.Models;
+using VisualAcademy.Shared;
 
 namespace UploadApp.Pages.Uploads
 {
@@ -20,9 +24,38 @@ namespace UploadApp.Pages.Uploads
         protected async void FormSubmit()
         {
             int.TryParse(ParentId, out int parentId);
-            model.ParentId = parentId; 
+            model.ParentId = parentId;
+
+            #region 파일 업로드 관련 추가 코드 영역
+            if (selectedFiles != null && selectedFiles.Length > 0)
+            {
+                // 파일 업로드
+                var file = selectedFiles.FirstOrDefault();
+                var fileName = "";
+                int fileSize = 0;
+                if (file != null)
+                {
+                    fileName = file.Name;
+                    fileSize = Convert.ToInt32(file.Size);
+
+                    fileName = await FileStorageManager.UploadAsync(file.Data, file.Name, "", true);
+
+                    model.FileName = fileName;
+                    model.FileSize = fileSize;
+                } 
+            }
+            #endregion
+
             await UploadRepositoryAsyncReference.AddAsync(model);
             NavigationManagerReference.NavigateTo("/Uploads");
+        }
+
+        [Inject]
+        public IFileStorageManager FileStorageManager { get; set; }
+        private IFileListEntry[] selectedFiles;
+        protected void HandleSelection(IFileListEntry[] files)
+        {
+            this.selectedFiles = files;
         }
     }
 }

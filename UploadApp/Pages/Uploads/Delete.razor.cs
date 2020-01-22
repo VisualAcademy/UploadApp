@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using UploadApp.Models;
 using System.Threading.Tasks;
+using VisualAcademy.Shared;
 
 namespace UploadApp.Pages.Uploads
 {
@@ -35,6 +36,9 @@ namespace UploadApp.Pages.Uploads
 
             if (isDelete)
             {
+                // 첨부 파일 삭제 
+                await FileStorageManager.DeleteAsync(model.FileName, "");
+
                 await UploadRepositoryAsyncReference.DeleteAsync(Id); // 삭제
                 NavigationManagerReference.NavigateTo("/Uploads"); // 리스트 페이지로 이동
             }
@@ -43,5 +47,8 @@ namespace UploadApp.Pages.Uploads
                 await JSRuntime.InvokeAsync<object>("alert", "취소되었습니다.");
             }
         }
+
+        [Inject]
+        public IFileStorageManager FileStorageManager { get; set; }
     }
 }

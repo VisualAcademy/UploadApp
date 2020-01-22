@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using UploadApp.Models;
 using System;
-using UploadApp.Services;
 using BlazorInputFile;
 using System.Linq;
 using VisualAcademy.Shared;
@@ -77,28 +76,30 @@ namespace UploadApp.Pages.Uploads.Components
         protected async void CreateOrEditClick()
         {
             #region 파일 업로드 관련 추가 코드 영역
-            // 파일 업로드
-            var file = selectedFiles.FirstOrDefault();
-            var fileName = "";
-            int fileSize = 0;
-            if (file != null)
+            if (selectedFiles != null && selectedFiles.Length > 0)
             {
-                //file.Name = $"{DateTime.Now.ToString("yyyyMMddhhmmss")}{file.Name}";
-                fileName = file.Name;
-                fileSize = Convert.ToInt32(file.Size);
-                //await FileUploadServiceReference.UploadAsync(file);
+                // 파일 업로드
+                var file = selectedFiles.FirstOrDefault();
+                var fileName = "";
+                int fileSize = 0;
+                if (file != null)
+                {
+                    //file.Name = $"{DateTime.Now.ToString("yyyyMMddhhmmss")}{file.Name}";
+                    fileName = file.Name;
+                    fileSize = Convert.ToInt32(file.Size);
 
-                //[A] byte[] 형태
-                //var ms = new MemoryStream();
-                //await file.Data.CopyToAsync(ms);
-                //await FileStorageManager.UploadAsync(ms.ToArray(), file.Name, "", true);
-                //[B] Stream 형태
-                //string folderPath = Path.Combine(WebHostEnvironment.WebRootPath, "files");
-                await FileStorageManager.UploadAsync(file.Data, file.Name, "", true);
+                    //[A] byte[] 형태
+                    //var ms = new MemoryStream();
+                    //await file.Data.CopyToAsync(ms);
+                    //await FileStorageManager.UploadAsync(ms.ToArray(), file.Name, "", true);
+                    //[B] Stream 형태
+                    //string folderPath = Path.Combine(WebHostEnvironment.WebRootPath, "files");
+                    await FileStorageManager.UploadAsync(file.Data, file.Name, "", true);
 
-                Model.FileName = fileName;
-                Model.FileSize = fileSize;
-            } 
+                    Model.FileName = fileName;
+                    Model.FileSize = fileSize;
+                }  
+            }
             #endregion
 
             if (!int.TryParse(parentId, out int newParentId))
@@ -122,9 +123,6 @@ namespace UploadApp.Pages.Uploads.Components
             //IsShow = false; // this.Hide()
         }
 
-        [Inject]
-        public IFileUploadService FileUploadServiceReference { get; set; }
-
         private IFileListEntry[] selectedFiles;
         protected void HandleSelection(IFileListEntry[] files)
         {
@@ -133,8 +131,5 @@ namespace UploadApp.Pages.Uploads.Components
 
         [Inject]
         public IFileStorageManager FileStorageManager { get; set; }
-
-        //[Inject]
-        //public IWebHostEnvironment WebHostEnvironment { get; set; }
     }
 }
