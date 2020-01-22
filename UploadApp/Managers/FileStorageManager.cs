@@ -12,9 +12,14 @@ namespace UploadApp.Managers
             throw new NotImplementedException();
         }
 
-        public Task<byte[]> DownloadAsync(string fileName, string folderPath)
+        public async Task<byte[]> DownloadAsync(string fileName, string folderPath)
         {
-            throw new NotImplementedException();
+            if (File.Exists(Path.Combine(folderPath, fileName)))
+            {
+                byte[] fileBytes = await File.ReadAllBytesAsync(Path.Combine(folderPath, fileName));
+                return fileBytes;
+            }
+            return null; 
         }
 
         public string GetFolderPath(string ownerType, string ownerId, string fileType)

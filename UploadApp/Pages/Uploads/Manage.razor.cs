@@ -4,6 +4,11 @@ using UploadApp.Pages.Uploads.Components;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VisualAcademy.Shared;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.JSInterop;
+using BlazorUtils;
 
 namespace UploadApp.Pages.Uploads
 {
@@ -142,6 +147,28 @@ namespace UploadApp.Pages.Uploads
             this.model = model;
             IsInlineDialogShow = true; 
         }
+
+        protected async void DownloadBy(Upload model)
+        {
+            if (!string.IsNullOrEmpty(model.FileName))
+            {
+                string folderPath = Path.Combine(WebHostEnvironment.WebRootPath, "files");
+                byte[] fileBytes = await FileStorageManager.DownloadAsync(model.FileName, folderPath);
+                if (fileBytes != null)
+                {
+                    await FileUtil.SaveAs(JSRuntime, model.FileName, fileBytes); 
+                }
+            }
+        }
+
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
+
+        [Inject]
+        public IFileStorageManager FileStorageManager { get; set; }
+
+        [Inject]
+        public IWebHostEnvironment WebHostEnvironment { get; set; }
 
         protected async void CreateOrEdit()
         {

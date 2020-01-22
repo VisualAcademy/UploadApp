@@ -78,6 +78,8 @@
                                 <input type="button" name="btnEdit" value="Edit with Modal" class="btn btn-primary" @onclick="(() => EditBy(m))" />
                                 <input type="button" name="btnDelete" value="Delete with Modal" class="btn btn-primary" @onclick="(() => DeleteBy(m))" />
                                 <input type="button" name="btnToggle" value="Toggle with Modal" class="btn btn-primary" @onclick="(() => ToggleBy(m))" />
+                                <input type="button" name="btnDownload" value="Download" class="btn btn-primary" @onclick="(() => DownloadBy(m))" />
+                                <a href="/UploadDownload/BoardDown/@m.Id">다운로드</a>
                             </td>
                         </tr>
                     }
