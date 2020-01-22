@@ -20,7 +20,7 @@ namespace UploadApp.Controllers
         /// <summary>
         /// 게시판 파일 강제 다운로드 기능(/BoardDown/:Id)
         /// </summary>
-        public async Task<FileResult> BoardDown(int id)
+        public async Task<FileResult> FileDown(int id)
         {
             var model = await _repository.GetByIdAsync(id);
 
