@@ -20,9 +20,11 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorInputFile\BlazorInputFile.csproj" />
     <ProjectReference Include="..\UploadApp.Models\UploadApp.Models.csproj" />
+    <ProjectReference Include="..\VisualAcademy.Shared\VisualAcademy.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\files\" />
     <Folder Include="wwwroot\Upload\" />
   </ItemGroup>
 

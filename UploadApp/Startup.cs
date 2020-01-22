@@ -11,6 +11,8 @@ using UploadApp.Data;
 using NoticeApp.Models;
 using UploadApp.Models;
 using UploadApp.Services;
+using VisualAcademy.Shared;
+using UploadApp.Managers;
 
 namespace UploadApp
 {
@@ -41,6 +43,9 @@ namespace UploadApp
             AddDependencyInjectionContainerForUploadApp(services);
 
             services.AddScoped<IFileUploadService, FileUploadService>();
+
+            //services.AddTransient<IFileStorageManager, BlobStorageManager>(); // Cloud Upload
+            services.AddTransient<IFileStorageManager, FileStorageManager>(); // Local Upload
         }
 
         /// <summary>

@@ -4,6 +4,8 @@ using System;
 using UploadApp.Services;
 using BlazorInputFile;
 using System.Linq;
+using VisualAcademy.Shared;
+using System.IO;
 
 namespace UploadApp.Pages.Uploads.Components
 {
@@ -85,7 +87,11 @@ namespace UploadApp.Pages.Uploads.Components
                 //file.Name = $"{DateTime.Now.ToString("yyyyMMddhhmmss")}{file.Name}";
                 fileName = file.Name;
                 fileSize = Convert.ToInt32(file.Size);
-                await FileUploadServiceReference.UploadAsync(file);
+                //await FileUploadServiceReference.UploadAsync(file);
+
+                var ms = new MemoryStream();
+                await file.Data.CopyToAsync(ms);
+                await FileStorageManager.UploadAsync(ms.ToArray(), file.Name, "", true);
 
                 Model.FileName = fileName;
                 Model.FileSize = fileSize;
@@ -121,5 +127,8 @@ namespace UploadApp.Pages.Uploads.Components
         {
             this.selectedFiles = files;
         }
+
+        [Inject]
+        public IFileStorageManager FileStorageManager { get; set; }
     }
 }
