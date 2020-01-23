@@ -53,7 +53,7 @@ namespace UploadApp.Pages.Uploads
         {
             PageNumber = 1,
             PageIndex = 0,
-            PageSize = 10,
+            PageSize = 5,
             PagerButtonCount = 5
         };
 
