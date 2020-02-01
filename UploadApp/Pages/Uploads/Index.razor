@@ -1,7 +1,7 @@
 ﻿@page "/Uploads"
 @page "/Uploads/Index"
 
-<h3>Index</h3>
+<h3>Upload List <a href="/Uploads/Create"><span class="oi oi-plus"></span></a></h3>
 
 <div class="row">
     <div class="col-md-12">
@@ -36,7 +36,7 @@
             <table class="table table-bordered table-hover">
                 <thead class="thead-light">
                     <tr>
-                        <th>Id</th>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Created</th>
                         <th>Action</th>
@@ -52,25 +52,28 @@
                         </tr>
                     </tbody>
                 }
-                <tbody>
-                    @foreach (var m in models)
-                    {
-                        <tr>
-                            <td>@m.Id</td>
-                            <td @onclick="@(() => NameClick(m.Id))">
-                                <a href="/Uploads/Details/@m.Id">
-                                    @m.Name
-                                </a>
-                            </td>
-                            <td>@m.Created?.ToShortTimeString()</td>
-                            <td>
-                                <a href="/Uploads/Details/@m.Id" class="btn btn-light">Details</a>
-                                <a href="/Uploads/Edit/@m.Id" class="btn btn-light">Edit</a>
-                                <a href="/Uploads/Delete/@m.Id" class="btn btn-light">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                else
+                {
+                    <tbody>
+                        @foreach (var m in models)
+                        {
+                            <tr>
+                                <td>@m.Id</td>
+                                <td @onclick="@(() => NameClick(m.Id))">
+                                    <a href="/Uploads/Details/@m.Id">
+                                        @m.Name
+                                    </a>
+                                </td>
+                                <td>@m.Created?.ToShortTimeString()</td>
+                                <td>
+                                    <a href="/Uploads/Details/@m.Id" class="btn btn-light">Details</a>
+                                    <a href="/Uploads/Edit/@m.Id" class="btn btn-light">Edit</a>
+                                    <a href="/Uploads/Delete/@m.Id" class="btn btn-light">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
             </table>
         }
     </div>
