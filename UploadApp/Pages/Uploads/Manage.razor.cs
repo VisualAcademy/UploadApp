@@ -190,8 +190,11 @@ namespace UploadApp.Pages.Uploads
 
         protected async void DeleteClick()
         {
-            // 첨부 파일 삭제 
-            await FileStorageManager.DeleteAsync(model.FileName, "");
+            if (!string.IsNullOrEmpty(model?.FileName))
+            {
+                // 첨부 파일 삭제 
+                await FileStorageManager.DeleteAsync(model.FileName, "");
+            }
 
             await UploadRepositoryAsyncReference.DeleteAsync(this.model.Id);
             DeleteDialogReference.Hide();

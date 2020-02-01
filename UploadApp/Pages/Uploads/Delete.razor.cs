@@ -36,8 +36,11 @@ namespace UploadApp.Pages.Uploads
 
             if (isDelete)
             {
-                // 첨부 파일 삭제 
-                await FileStorageManager.DeleteAsync(model.FileName, "");
+                if (!string.IsNullOrEmpty(model?.FileName))
+                {
+                    // 첨부 파일 삭제 
+                    await FileStorageManager.DeleteAsync(model.FileName, "");
+                }
 
                 await UploadRepositoryAsyncReference.DeleteAsync(Id); // 삭제
                 NavigationManagerReference.NavigateTo("/Uploads"); // 리스트 페이지로 이동
