@@ -57,6 +57,8 @@ namespace UploadApp.Pages.Uploads
 
         protected async void Search(string query)
         {
+            pager.PageIndex = 0;
+
             this.searchQuery = query;
 
             await DisplayData();
