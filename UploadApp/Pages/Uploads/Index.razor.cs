@@ -53,6 +53,7 @@ namespace UploadApp.Pages.Uploads
             StateHasChanged();
         }
 
+        #region Search
         private string searchQuery = "";
 
         protected async void Search(string query)
@@ -64,8 +65,10 @@ namespace UploadApp.Pages.Uploads
             await DisplayData();
 
             StateHasChanged();
-        }
+        } 
+        #endregion
 
+        #region Sorting
         private string sortOrder = "";
 
         protected async void SortByName()
@@ -102,7 +105,7 @@ namespace UploadApp.Pages.Uploads
             }
 
             await DisplayData();
-        }
-
+        } 
+        #endregion
     }
 }

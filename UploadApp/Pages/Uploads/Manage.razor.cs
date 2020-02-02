@@ -189,6 +189,7 @@ namespace UploadApp.Pages.Uploads
             await DisplayData();
         }
 
+        #region Search
         private string searchQuery = "";
 
         protected async void Search(string query)
@@ -200,7 +201,8 @@ namespace UploadApp.Pages.Uploads
             await DisplayData();
 
             StateHasChanged();
-        }
+        } 
+        #endregion
 
         protected void DownloadExcel()
         {
@@ -232,7 +234,8 @@ namespace UploadApp.Pages.Uploads
                 FileUtil.SaveAs(JSRuntime, $"{DateTime.Now.ToString("yyyyMMddhhmmss")}_Uploads.xlsx", package.GetAsByteArray());
             }
         }
-        
+
+        #region Sorting
         private string sortOrder = "";
 
         protected async void SortByName()
@@ -269,6 +272,7 @@ namespace UploadApp.Pages.Uploads
             }
 
             await DisplayData();
-        }
+        } 
+        #endregion
     }
 }
