@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VisualAcademy.Shared;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
 using Microsoft.JSInterop;
 using BlazorUtils;
 using OfficeOpenXml;
@@ -59,48 +57,31 @@ namespace UploadApp.Pages.Uploads
 
         protected override async Task OnInitializedAsync()
         {
-            if (this.searchQuery != "")
-            {
-                await DisplayData();
-            }
-            else
-            {
-                await SearchData();
-            }
+            await DisplayData();
         }
 
         private async Task DisplayData()
         {
-            if (ParentKey == "")
+            if (ParentKey != "")
             {
-                var resultsSet = await UploadRepositoryAsyncReference.GetAllAsync(pager.PageIndex, pager.PageSize);
-                pager.RecordCount = resultsSet.TotalRecords;
-                models = resultsSet.Records.ToList();
+                var articleSet = await UploadRepositoryAsyncReference.GetArticles<string>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, ParentKey);
+                pager.RecordCount = articleSet.TotalCount;
+                models = articleSet.Items.ToList();
+            }
+            else if (ParentId != 0)
+            {
+                var articleSet = await UploadRepositoryAsyncReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, ParentId);
+                pager.RecordCount = articleSet.TotalCount;
+                models = articleSet.Items.ToList();
             }
             else
             {
-                var resultsSet = await UploadRepositoryAsyncReference.GetAllByParentKeyAsync(pager.PageIndex, pager.PageSize, ParentKey);
-                pager.RecordCount = resultsSet.TotalRecords;
-                models = resultsSet.Records.ToList();
+                var articleSet = await UploadRepositoryAsyncReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
+                pager.RecordCount = articleSet.TotalCount;
+                models = articleSet.Items.ToList();
             }
 
             StateHasChanged();
-        }
-
-        private async Task SearchData()
-        {
-            if (ParentKey == "")
-            {
-                var resultsSet = await UploadRepositoryAsyncReference.SearchAllAsync(pager.PageIndex, pager.PageSize, this.searchQuery);
-                pager.RecordCount = resultsSet.TotalRecords;
-                models = resultsSet.Records.ToList();
-            }
-            else
-            {
-                var resultsSet = await UploadRepositoryAsyncReference.SearchAllByParentKeyAsync(pager.PageIndex, pager.PageSize, this.searchQuery, ParentKey);
-                pager.RecordCount = resultsSet.TotalRecords;
-                models = resultsSet.Records.ToList();
-            }
         }
 
         protected void NameClick(int id)
@@ -113,14 +94,7 @@ namespace UploadApp.Pages.Uploads
             pager.PageIndex = pageIndex;
             pager.PageNumber = pageIndex + 1;
 
-            if (this.searchQuery == "")
-            {
-                await DisplayData();
-            }
-            else
-            {
-                await SearchData();
-            }
+            await DisplayData();
 
             StateHasChanged();
         }
@@ -178,9 +152,6 @@ namespace UploadApp.Pages.Uploads
         [Inject]
         public IFileStorageManager FileStorageManager { get; set; }
 
-        //[Inject]
-        //public IWebHostEnvironment WebHostEnvironment { get; set; }
-
         protected async void CreateOrEdit()
         {
             EditorFormReference.Hide();
@@ -224,7 +195,7 @@ namespace UploadApp.Pages.Uploads
         {
             this.searchQuery = query;
 
-            await SearchData();
+            await DisplayData();
 
             StateHasChanged();
         }
@@ -258,6 +229,44 @@ namespace UploadApp.Pages.Uploads
 
                 FileUtil.SaveAs(JSRuntime, $"{DateTime.Now.ToString("yyyyMMddhhmmss")}_Uploads.xlsx", package.GetAsByteArray());
             }
+        }
+        
+        private string sortOrder = "";
+
+        protected async void SortByName()
+        {
+            if (sortOrder == "")
+            {
+                sortOrder = "Name";
+            }
+            else if (sortOrder == "Name")
+            {
+                sortOrder = "NameDesc";
+            }
+            else
+            {
+                sortOrder = "";
+            }
+
+            await DisplayData();
+        }
+
+        protected async void SortByTitle()
+        {
+            if (sortOrder == "")
+            {
+                sortOrder = "Title";
+            }
+            else if (sortOrder == "Title")
+            {
+                sortOrder = "TitleDesc";
+            }
+            else
+            {
+                sortOrder = "";
+            }
+
+            await DisplayData();
         }
     }
 }

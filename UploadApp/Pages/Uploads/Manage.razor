@@ -40,7 +40,8 @@
                 <thead class="thead-light">
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
+                        <th @onclick="@(() => SortByName())">Name <UploadApp.Pages.Uploads.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></UploadApp.Pages.Uploads.Components.SortOrderArrow></th>
+                        <th @onclick="@(() => SortByTitle())">Title <UploadApp.Pages.Uploads.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></UploadApp.Pages.Uploads.Components.SortOrderArrow></th>
                         <th>Created</th>
                         <th>IsPinned</th>
                         <th>Action</th>
@@ -67,6 +68,7 @@
                                     @m.Name
                                 </a>
                             </td>
+                            <td>@m.Title</td>
                             <td>@m.Created?.ToShortTimeString()</td>
                             <td>
                                 @(m.IsPinned == true ? "공지" : "")

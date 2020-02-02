@@ -20,35 +20,22 @@ namespace UploadApp.Pages.Uploads
         { 
             PageNumber = 1,
             PageIndex = 0,
-            PageSize = 2,
+            PageSize = 10,
             PagerButtonCount = 5
         };
 
         protected override async Task OnInitializedAsync()
         {
-            if (this.searchQuery != "")
-            {
-                await DisplayData();
-            }
-            else
-            {
-                await SearchData(); 
-            }
+            await DisplayData();
         }
 
         private async Task DisplayData()
         {
-            //await Task.Delay(3000);
-            var resultsSet = await UploadRepositoryAsyncReference.GetAllAsync(pager.PageIndex, pager.PageSize);
-            pager.RecordCount = resultsSet.TotalRecords;
-            models = resultsSet.Records.ToList();
-        }
+            var articleSet = await UploadRepositoryAsyncReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
+            pager.RecordCount = articleSet.TotalCount;
+            models = articleSet.Items.ToList();
 
-        private async Task SearchData()
-        {
-            var resultsSet = await UploadRepositoryAsyncReference.SearchAllAsync(pager.PageIndex, pager.PageSize, this.searchQuery);
-            pager.RecordCount = resultsSet.TotalRecords;
-            models = resultsSet.Records.ToList();
+            StateHasChanged();
         }
 
         protected void NameClick(int id)
@@ -61,14 +48,7 @@ namespace UploadApp.Pages.Uploads
             pager.PageIndex = pageIndex;
             pager.PageNumber = pageIndex + 1;
 
-            if (this.searchQuery == "")
-            {
-                await DisplayData();
-            }
-            else
-            {
-                await SearchData();
-            }
+            await DisplayData();
 
             StateHasChanged();
         }
@@ -79,9 +59,48 @@ namespace UploadApp.Pages.Uploads
         {
             this.searchQuery = query;
 
-            await SearchData();
+            await DisplayData();
 
             StateHasChanged();
         }
+
+        private string sortOrder = "";
+
+        protected async void SortByName()
+        {
+            if (sortOrder == "")
+            {
+                sortOrder = "Name";
+            }
+            else if (sortOrder == "Name")
+            {
+                sortOrder = "NameDesc";
+            }
+            else
+            {
+                sortOrder = "";
+            }
+
+            await DisplayData();
+        }
+
+        protected async void SortByTitle()
+        {
+            if (sortOrder == "")
+            {
+                sortOrder = "Title";
+            }
+            else if (sortOrder == "Title")
+            {
+                sortOrder = "TitleDesc";
+            }
+            else
+            {
+                sortOrder = "";
+            }
+
+            await DisplayData();
+        }
+
     }
 }

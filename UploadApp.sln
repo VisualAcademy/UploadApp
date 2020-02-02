@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{6A392474
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorInputFile", "BlazorInputFile\BlazorInputFile.csproj", "{D59AB6DC-F57B-4EC0-B87D-D4DA176DE6CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualAcademy.Shared", "VisualAcademy.Shared\VisualAcademy.Shared.csproj", "{E6C91A2B-CEEB-49FA-84BF-3EE5AE5303CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualAcademy.Shared", "VisualAcademy.Shared\VisualAcademy.Shared.csproj", "{E6C91A2B-CEEB-49FA-84BF-3EE5AE5303CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorUtils", "BlazorUtils\BlazorUtils.csproj", "{E0BA8F86-E760-4EFC-A39A-58001355BCE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorUtils", "BlazorUtils\BlazorUtils.csproj", "{E0BA8F86-E760-4EFC-A39A-58001355BCE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using Dul.Domain.Common;
+﻿using Dul.Articles;
+using Dul.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -238,6 +239,69 @@ namespace UploadApp.Models
                 .ToListAsync();
 
             return new PagingResult<Upload>(models, totalRecords);
+        }
+
+        public async Task<ArticleSet<Upload, int>> GetArticles<TParentIdentifier>(int pageIndex, int pageSize, string searchField, string searchQuery, string sortOrder, TParentIdentifier parentIdentifier) 
+        {
+            //var items = from m in _context.Uploads select m; // 쿼리 구문(Query Syntax)
+            var items = _context.Uploads.Select(m => m); // 메서드 구문(Method Syntax)
+
+            // ParentBy 
+            if (parentIdentifier is int parentId && parentId != 0)
+            {
+                items = items.Where(m => m.ParentId == parentId);
+            }
+            else if (parentIdentifier is string parentKey && !string.IsNullOrEmpty(parentKey))
+            {
+                items = items.Where(m => m.ParentKey == parentKey); 
+            }
+
+            // Search Mode
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                if (searchField == "Name")
+                {
+                    // Name
+                    items = items.Where(m => m.Name.Contains(searchQuery));
+                }
+                else if (searchField == "Title")
+                {
+                    // Title
+                    items = items.Where(m => m.Title.Contains(searchQuery));
+                }
+                else
+                {
+                    // All
+                    items = items.Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery));
+                }
+            }
+
+            var totalCount = await items.CountAsync();
+
+            // Sorting
+            switch (sortOrder)
+            {
+                case "Name":
+                    items = items.OrderBy(m => m.Name);
+                    break;
+                case "NameDesc":
+                    items = items.OrderByDescending(m => m.Name);
+                    break;
+                case "Title":
+                    items = items.OrderBy(m => m.Title);
+                    break;
+                case "TitleDesc":
+                    items = items.OrderByDescending(m => m.Title);
+                    break;
+                default:
+                    items = items.OrderByDescending(m => m.Id); 
+                    break;
+            }
+
+            // Paging
+            items = items.Skip(pageIndex * pageSize).Take(pageSize);
+
+            return new ArticleSet<Upload, int>(await items.ToListAsync(), totalCount);
         }
     }
 }

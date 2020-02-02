@@ -35,7 +35,7 @@ namespace UploadApp.Models.Tests
 
                 //[A] Arrange
                 var repository = new UploadRepository(context, factory);
-                var model = new Upload { Name = "[1] 관리자", Title = "공지사항입니다.", Content = "내용입니다." };
+                var model = new Upload { Name = "[1] 관리자", Title = "공지사항입니다.", Content = "내용입니다.", ParentId = 1, ParentKey = "1" };
 
                 //[B] Act
                 await repository.AddAsync(model); // Id: 1
@@ -61,7 +61,7 @@ namespace UploadApp.Models.Tests
 
                 //[B] Act
                 await repository.AddAsync(model); // Id: 2
-                await repository.AddAsync(new Upload { Name = "[3] 백두산", Title = "공지사항입니다." }); // Id: 3
+                await repository.AddAsync(new Upload { Name = "[3] 백두산", Title = "자유게시판입니다.", ParentId = 3, ParentKey = "1" }); // Id: 3
             }
             using (var context = new UploadAppDbContext(options))
             {
@@ -165,8 +165,25 @@ namespace UploadApp.Models.Tests
                 var r = await repository.GetStatus(parentId);
 
                 Assert.AreEqual(1, r.Item1); // Pinned Count == 1
-            } 
+            }
             #endregion
+
+            //[9] GetArticles() Method Test
+            using (var context = new UploadAppDbContext(options))
+            {
+                var repository = new UploadRepository(context, factory);
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "", 0); // [3] 백두산, [1] 관리자
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "두", "", 0); // [3] 백두산
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "Name", 0); // [1] 관리자, [3] 백두산
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 0); // 자유게시판, 공지사항
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "Title", 0); // 공지사항, 자유게시판
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 1); // 공지사항
+                var articleSet = await repository.GetArticles<string>(0, 10, "", "", "TitleDesc", "1"); // 자, 공
+                foreach (var item in articleSet.Items)
+                {
+                    Console.WriteLine($"{item.Name} - {item.Title}");
+                }
+            }
         }
     }
 }
