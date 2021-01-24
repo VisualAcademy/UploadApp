@@ -57,7 +57,7 @@ namespace UploadApp
         private void AddDependencyInjectionContainerForNoticeApp(IServiceCollection services)
         {
             // NoticeAppDbContext.cs Inject: New DbContext Add
-            services.AddEntityFrameworkSqlServer().AddDbContext<NoticeAppDbContext>(options =>
+            services.AddDbContext<NoticeAppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             // INoticeRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
@@ -71,7 +71,7 @@ namespace UploadApp
         private void AddDependencyInjectionContainerForUploadApp(IServiceCollection services)
         {
             // NoticeAppDbContext.cs Inject: New DbContext Add
-            services.AddEntityFrameworkSqlServer().AddDbContext<UploadAppDbContext>(options =>
+            services.AddDbContext<UploadAppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             // INoticeRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
